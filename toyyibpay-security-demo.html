@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToyyibPay Security Enhanced - Demo Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .security-badge::before {
+            content: "🔒";
+            margin-right: 8px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-right: 1px solid #e9ecef;
+        }
+
+        .nav-tab:last-child {
+            border-right: none;
+        }
+
+        .nav-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: #e9ecef;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .security-feature {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .security-feature h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .security-feature p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #4CAF50;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        .btn-danger {
+            background: #f44336;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .security-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .security-indicator.secure {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .security-indicator.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .security-indicator.danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .demo-output {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #4CAF50;
+        }
+
+        .status-offline {
+            background: #f44336;
+        }
+
+        .status-warning {
+            background: #ff9800;
+        }
+
+        .log-entry {
+            background: white;
+            border-left: 3px solid #667eea;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 0 5px 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .log-entry .timestamp {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .encryption-demo {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .encryption-demo .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .encryption-demo .data-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+
+        .encryption-demo .data-box h5 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px auto;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .encryption-demo .before-after {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🔒 EDUCATIONAL DEMO - Security Enhancement Project for ToyyibPay-Inspired Platform
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔐 SecurePayGateway</div>
+            <div class="subtitle">ToyyibPay-Inspired Security Enhanced Payment Platform</div>
+            <div class="security-badge">All 10 Security Controls Implemented</div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('payment')">Payment Processing</button>
+            <button class="nav-tab" onclick="showTab('authentication')">Authentication & MFA</button>
+            <button class="nav-tab" onclick="showTab('merchant')">Merchant Onboarding</button>
+            <button class="nav-tab" onclick="showTab('api')">API Security</button>
+            <button class="nav-tab" onclick="showTab('monitoring')">Security Monitoring</button>
+            <button class="nav-tab" onclick="showTab('compliance')">Compliance & Audit</button>
+        </div>
+
+        <!-- Payment Processing Tab -->
+        <div class="tab-content active" id="payment">
+            <h2>🔒 Secure Payment Processing</h2>
+            
+            <div class="security-feature">
+                <h4>Control 1: End-to-End Encryption (E2EE) & Tokenization</h4>
+                <p>All payment data is encrypted client-side before transmission and tokenized for storage.</p>
+            </div>
+
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber" placeholder="4532 1234 5678 9012" maxlength="19" oninput="formatCardNumber(this)">
+            </div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                </div>
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="password" id="cvv" placeholder="123" maxlength="4">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Amount (RM)</label>
+                <input type="number" id="amount" placeholder="100.00" step="0.01">
+            </div>
+
+            <button class="btn" onclick="processPayment()">🔐 Process Encrypted Payment</button>
+            <button class="btn btn-success" onclick="showEncryptionDemo()">👁️ Show Encryption Process</button>
+
+            <div class="encryption-demo" id="encryptionDemo" style="display: none;">
+                <h4>🔐 Encryption & Tokenization Demo</h4>
+                <div class="before-after">
+                    <div class="data-box">
+                        <h5>Original Data (Client-Side)</h5>
+                        <div id="originalData">Enter payment details above</div>
+                    </div>
+                    <div class="data-box">
+                        <h5>Encrypted & Tokenized (Transmitted)</h5>
+                        <div id="encryptedData">Click "Show Encryption Process"</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-feature">
+                <h4>Control 8: Cloud Infrastructure Protection</h4>
+                <p>DDoS protection and infrastructure monitoring active.</p>
+                <div>
+                    <span class="security-indicator secure">✓ WAF Active</span>
+                    <span class="security-indicator secure">✓ Rate Limiting</span>
+                    <span class="security-indicator secure">✓ Auto-scaling</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authentication Tab -->
+        <div class="tab-content" id="authentication">
+            <h2>🔐 Multi-Factor Authentication System</h2>
+            
+            <div class="security-feature">
+                <h4>Control 6: Authentication & Authorization Enhancement</h4>
+                <p>Multi-factor authentication with session management and privilege controls.</p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Login with MFA</h3>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="user@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Your password">
+                    </div>
+                    <button class="btn" onclick="initiateLogin()">Step 1: Login</button>
+                    
+                    <div id="mfaSection" style="display: none; margin-top: 20px;">
+                        <div class="form-group">
+                            <label>MFA Code (6 digits)</label>
+                            <input type="text" id="mfaCode" placeholder="123456" maxlength="6">
+                        </div>
+                        <button class="btn btn-success" onclick="completeMFA()">Complete MFA Login</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Session Management</h3>
+                    <div id="sessionInfo">
+                        <p><span class="status-indicator status-offline"></span>Not logged in</p>
+                        <p>Session timeout: Not active</p>
+                        <p>Last activity: Never</p>
+                    </div>
+                    <button class="btn btn-danger" onclick="forceLogout()" disabled id="logoutBtn">Force Logout</button>
+                </div>
+            </div>
+
+            <div class="security-feature">
+                <h4>Control 7: Admin Panel Security</h4>
+                <p>Role-based access control with real-time monitoring.</p>
+                <div>
+                    <span class="security-indicator secure">✓ RBAC Active</span>
+                    <span class="security-indicator secure">✓ Admin Monitoring</span>
+                    <span class="security-indicator warning">⚠ Privilege Escalation Detection</span>
+                </div>
+            </div>
+
+            <div class="qr-code">
+                QR Code for<br>Google Authenticator<br>(Demo Mode)
+            </div>
+        </div>
+
+        <!-- Merchant Onboarding Tab -->
+        <div class="tab-content" id="merchant">
+            <h2>🏢 Enhanced Merchant Onboarding</h2>
+            
+            <div class="security-feature">
+                <h4>Control 3: KYC Verification & Digital Document Validation</h4>
+                <p>Advanced identity verification with biometric and document validation.</p>
+            </div>
+
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" id="businessName" placeholder="ABC Trading Sdn Bhd">
+            </div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label>Registration Number</label>
+                    <input type="text" id="regNumber" placeholder="123456-A">
+                </div>
+                <div class="form-group">
+                    <label>Business Type</label>
+                    <select id="businessType">
+                        <option>E-commerce</option>
+                        <option>Restaurant</option>
+                        <option>Services</option>
+                        <option>Retail</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="security-feature">
+                <h4>Document Verification</h4>
+                <p>Upload and verify business registration documents</p>
+                <div class="form-group">
+                    <label>Business Registration Certificate</label>
+                    <input type="file" id="bizDoc" accept=".pdf,.jpg,.png" onchange="simulateDocVerification()">
+                </div>
+                <div class="form-group">
+                    <label>Director's IC/Passport</label>
+                    <input type="file" id="idDoc" accept=".pdf,.jpg,.png" onchange="simulateIDVerification()">
+                </div>
+            </div>
+
+            <button class="btn" onclick="processKYC()">🔍 Start KYC Verification</button>
+
+            <div id="kycResults" style="display: none; margin-top: 20px;">
+                <h4>KYC Verification Results</h4>
+                <div class="log-entry">
+                    <div class="timestamp">Document Analysis Started...</div>
+                </div>
+                <div class="log-entry">
+                    <div class="timestamp">✓ Document authenticity verified</div>
+                </div>
+                <div class="log-entry">
+                    <div class="timestamp">✓ Business registration validated</div>
+                </div>
+                <div class="log-entry">
+                    <div class="timestamp">✓ Identity verification completed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Security Tab -->
+        <div class="tab-content" id="api">
+            <h2>🔌 API Security & OAuth 2.0</h2>
+            
+            <div class="security-feature">
+                <h4>Control 5: API Endpoints & Credential Security</h4>
+                <p>OAuth 2.0 implementation with scoped access tokens and automatic key rotation.</p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>OAuth 2.0 Token Generation</h3>
+                    <div class="form-group">
+                        <label>Client ID</label>
+                        <input type="text" id="clientId" placeholder="your_client_id" readonly value="demo_client_12345">
+                    </div>
+                    <div class="form-group">
+                        <label>Requested Scopes</label>
+                        <select id="scopes" multiple style="height: 100px;">
+                            <option value="read:payments">read:payments</option>
+                            <option value="write:payments">write:payments</option>
+                            <option value="read:merchants">read:merchants</option>
+                            <option value="admin:settings">admin:settings</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="generateOAuthToken()">Generate Access Token</button>
+                    
+                    <div id="tokenDisplay" class="demo-output" style="display: none;"></div>
+                </div>
+
+                <div class="card">
+                    <h3>API Key Management</h3>
+                    <div>
+                        <span class="security-indicator secure">✓ Automatic Rotation</span>
+                        <span class="security-indicator secure">✓ Scoped Access</span>
+                        <span class="security-indicator warning">⚠ Rate Limited</span>
+                    </div>
+                    <button class="btn btn-success" onclick="rotateAPIKeys()">🔄 Rotate API Keys</button>
+                    <button class="btn" onclick="testAPIEndpoint()">🧪 Test API Endpoint</button>
+                    
+                    <div id="apiResponse" class="demo-output" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div class="security-feature">
+                <h4>Control 9: Encryption Keys & Certificates</h4>
+                <p>HSM-based key storage with access logging and certificate management.</p>
+                <div>
+                    <span class="security-indicator secure">✓ HSM Storage</span>
+                    <span class="security-indicator secure">✓ Access Logged</span>
+                    <span class="security-indicator secure">✓ Auto-renewal</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Monitoring Tab -->
+        <div class="tab-content" id="monitoring">
+            <h2>📊 Real-time Security Monitoring</h2>
+            
+            <div class="security-feature">
+                <h4>Control 4: Financial Transaction Records Integrity</h4>
+                <p>Hash-based integrity checks and immutable logging for all transactions.</p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Transaction Integrity</h3>
+                    <button class="btn" onclick="generateTransactionHash()">🔐 Generate Transaction Hash</button>
+                    <button class="btn btn-success" onclick="verifyTransactionIntegrity()">✓ Verify Integrity</button>
+                    
+                    <div id="hashDemo" class="demo-output" style="display: none;"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Security Alerts</h3>
+                    <div id="securityAlerts">
+                        <div class="log-entry">
+                            <div class="timestamp">2025-01-29 14:23:15</div>
+                            <div>✓ All systems operational</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="timestamp">2025-01-29 14:22:45</div>
+                            <div>🔒 API key rotated successfully</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="timestamp">2025-01-29 14:21:30</div>
+                            <div>⚠ Rate limit triggered for IP: 192.168.1.100</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger" onclick="simulateSecurityAlert()">🚨 Simulate Security Alert</button>
+                </div>
+            </div>
+
+            <div class="security-feature">
+                <h4>Control 2: Customer Personal Data Protection</h4>
+                <p>TLS 1.3 enforcement, data encryption at rest, and anonymized logging.</p>
+                <div>
+                    <span class="security-indicator secure">✓ TLS 1.3 Active</span>
+                    <span class="security-indicator secure">✓ Data Encrypted</span>
+                    <span class="security-indicator secure">✓ Logs Anonymized</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Tab -->
+        <div class="tab-content" id="compliance">
+            <h2>📋 Compliance & Audit Logging</h2>
+            
+            <div class="security-feature">
+                <h4>Control 10: Regulatory Compliance Documentation</h4>
+                <p>Automated audit logging with digital signatures for compliance reports.</p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Compliance Status</h3>
+                    <div>
+                        <p><span class="security-indicator secure">✓</span> PCI DSS Level 1</p>
+                        <p><span class="security-indicator secure">✓</span> PDPA Malaysia</p>
+                        <p><span class="security-indicator secure">✓</span> Bank Negara Guidelines</p>
+                        <p><span class="security-indicator secure">✓</span> ISO 27001</p>
+                    </div>
+                    <button class="btn" onclick="generateComplianceReport()">📄 Generate Compliance Report</button>
+                </div>
+
+                <div class="card">
+                    <h3>Audit Logs</h3>
+                    <div id="auditLogs">
+                        <div class="log-entry">
+                            <div class="timestamp">2025-01-29 14:25:00</div>
+                            <div>Admin user 'security_admin' accessed encryption keys</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="timestamp">2025-01-29 14:24:30</div>
+                            <div>Payment transaction processed: TX_789456123</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="timestamp">2025-01-29 14:23:45</div>
+                            <div>MFA authentication completed for user: merchant_001</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="exportAuditLogs()">📤 Export Audit Logs</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Security Controls Summary</h3>
+                <div class="demo-output" id="securitySummary">
+Security Controls Implementation Status:
+
+✅ Control 1: Payment Processing (E2EE + Tokenization)
+✅ Control 2: Customer Data Protection (TLS 1.3 + Encryption)
+✅ Control 3: Merchant Verification (KYC + Document Validation)
+✅ Control 4: Transaction Integrity (Hash-based + Immutable Logs)
+✅ Control 5: API Security (OAuth 2.0 + Key Rotation)
+✅ Control 6: Authentication (MFA + Session Management)
+✅ Control 7: Admin Panel (RBAC + Monitoring)
+✅ Control 8: Infrastructure (DDoS + Auto-scaling)
+✅ Control 9: Encryption Management (HSM + Access Logging)
+✅ Control 10: Compliance (Audit Logs + Digital Signatures)
+
+Total Risk Reduction: 94% (From RM 2.98M to RM 180K ALE)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Card number formatting
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            input.value = formattedValue;
+        }
+
+        // Expiry date formatting
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            input.value = value;
+        }
+
+        // Security demonstrations
+        function processPayment() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const amount = document.getElementById('amount').value;
+            
+            if (!cardNumber || !amount) {
+                alert('Please fill in payment details');
+                return;
+            }
+            
+            // Simulate payment processing
+            alert('🔒 Payment processed securely!\n\n' +
+                  '✓ Data encrypted with AES-256\n' +
+                  '✓ Card number tokenized\n' +
+                  '✓ Transaction logged with integrity hash\n' +
+                  '✓ Compliance audit trail created');
+            
+            addSecurityLog('Payment processed with E2EE encryption', 'success');
+        }
+
+        function showEncryptionDemo() {
+            const cardNumber = document.getElementById('cardNumber').value || '4532 1234 5678 9012';
+            const amount = document.getElementById('amount').value || '100.00';
+            
+            const originalData = `Card: ${cardNumber}\nAmount: RM ${amount}\nCVV: 123`;
+            const encryptedData = `Encrypted: AES256(${btoa(originalData).substring(0, 32)}...)\nToken: tok_${Math.random().toString(36).substring(7)}\nHash: sha256_${Math.random().toString(36).substring(7)}`;
+            
+            document.getElementById('originalData').textContent = originalData;
+            document.getElementById('encryptedData').textContent = encryptedData;
+            document.getElementById('encryptionDemo').style.display = 'block';
+        }
+
+        // Authentication functions
+        let isLoggedIn = false;
+        let sessionTimeout;
+
+        function initiateLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+            
+            document.getElementById('mfaSection').style.display = 'block';
+            addSecurityLog('Login initiated for: ' + email, 'info');
+        }
+
+        function completeMFA() {
+            const mfaCode = document.getElementById('mfaCode').value;
+            
+            if (mfaCode.length !== 6) {
+                alert('Please enter 6-digit MFA code');
+                return;
+            }
+            
+            isLoggedIn = true;
+            updateSessionInfo();
+            startSessionTimeout();
+            
+            document.getElementById('logoutBtn').disabled = false;
+            addSecurityLog('MFA authentication completed successfully', 'success');
+            alert('✅ Login successful with MFA!');
+        }
+
+        function updateSessionInfo() {
+            const sessionInfo = document.getElementById('sessionInfo');
+            if (isLoggedIn) {
+                sessionInfo.innerHTML = `
+                    <p><span class="status-indicator status-online"></span>Logged in</p>
+                    <p>Session timeout: 30 minutes</p>
+                    <p>Last activity: ${new Date().toLocaleTimeString()}</p>
+                `;
+            } else {
+                sessionInfo.innerHTML = `
+                    <p><span class="status-indicator status-offline"></span>Not logged in</p>
+                    <p>Session timeout: Not active</p>
+                    <p>Last activity: Never</p>
+                `;
+            }
+        }
+
+        function startSessionTimeout() {
+            clearTimeout(sessionTimeout);
+            sessionTimeout = setTimeout(() => {
+                forceLogout();
+                alert('⏰ Session expired for security');
+            }, 30000); // 30 seconds for demo
+        }
+
+        function forceLogout() {
+            isLoggedIn = false;
+            clearTimeout(sessionTimeout);
+            updateSessionInfo();
+            document.getElementById('logoutBtn').disabled = true;
+            document.getElementById('mfaSection').style.display = 'none';
+            addSecurityLog('User session terminated', 'warning');
+        }
+
+        // Merchant onboarding functions
+        function simulateDocVerification() {
+            addSecurityLog('Document uploaded for verification', 'info');
+        }
+
+        function simulateIDVerification() {
+            addSecurityLog('ID document uploaded for verification', 'info');
+        }
+
+        function processKYC() {
+            const businessName = document.getElementById('businessName').value;
+            
+            if (!businessName) {
+                alert('Please enter business name');
+                return;
+            }
+            
+            document.getElementById('kycResults').style.display = 'block';
+            addSecurityLog('KYC verification completed for: ' + businessName, 'success');
+        }
+
+        // API Security functions
+        function generateOAuthToken() {
+            const scopes = Array.from(document.getElementById('scopes').selectedOptions).map(option => option.value);
+            
+            const token = {
+                access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+                token_type: 'Bearer',
+                expires_in: 3600,
+                scope: scopes.join(' '),
+                issued_at: new Date().toISOString()
+            };
+            
+            document.getElementById('tokenDisplay').style.display = 'block';
+            document.getElementById('tokenDisplay').textContent = JSON.stringify(token, null, 2);
+            addSecurityLog('OAuth 2.0 token generated with scoped access', 'success');
+        }
+
+        function rotateAPIKeys() {
+            const newKeyId = 'key_' + Math.random().toString(36).substring(7);
+            alert('🔄 API Keys rotated successfully!\n\nNew Key ID: ' + newKeyId);
+            addSecurityLog('API keys rotated - Key ID: ' + newKeyId, 'success');
+        }
+
+        function testAPIEndpoint() {
+            const response = {
+                status: 200,
+                message: 'API endpoint accessible',
+                timestamp: new Date().toISOString(),
+                rate_limit: {
+                    remaining: 999,
+                    reset_time: '2025-01-29T15:00:00Z'
+                }
+            };
+            
+            document.getElementById('apiResponse').style.display = 'block';
+            document.getElementById('apiResponse').textContent = JSON.stringify(response, null, 2);
+            addSecurityLog('API endpoint tested successfully', 'info');
+        }
+
+        // Security monitoring functions
+        function generateTransactionHash() {
+            const hash = 'sha256_' + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7);
+            const hashInfo = `Transaction Hash Generated:
+            
+Transaction ID: TX_${Math.random().toString(36).substring(7)}
+Hash Algorithm: SHA-256
+Hash Value: ${hash}
+Timestamp: ${new Date().toISOString()}
+Status: ✓ Verified`;
+            
+            document.getElementById('hashDemo').style.display = 'block';
+            document.getElementById('hashDemo').textContent = hashInfo;
+            addSecurityLog('Transaction hash generated for integrity verification', 'success');
+        }
+
+        function verifyTransactionIntegrity() {
+            setTimeout(() => {
+                alert('✅ Transaction integrity verified!\n\nAll transaction hashes match recorded values.');
+                addSecurityLog('Transaction integrity verification completed', 'success');
+            }, 1000);
+        }
+
+        function simulateSecurityAlert() {
+            const alerts = [
+                'Suspicious API access pattern detected',
+                'Multiple failed login attempts from IP: 192.168.1.200',
+                'Unusual transaction volume spike detected',
+                'Potential privilege escalation attempt blocked'
+            ];
+            
+            const randomAlert = alerts[Math.floor(Math.random() * alerts.length)];
+            addSecurityLog(randomAlert, 'warning');
+        }
+
+        // Compliance functions
+        function generateComplianceReport() {
+            const report = `COMPLIANCE REPORT - ${new Date().toLocaleDateString()}
+            
+PCI DSS Level 1: ✅ COMPLIANT
+PDPA Malaysia: ✅ COMPLIANT
+Bank Negara Guidelines: ✅ COMPLIANT
+ISO 27001: ✅ COMPLIANT
+
+Security Controls Status:
+- Encryption: AES-256 implemented
+- Authentication: MFA enforced
+- Access Control: RBAC active
+- Audit Logging: Comprehensive
+- Data Protection: Enhanced
+
+Report digitally signed with SHA-256 hash.
+Generated: ${new Date().toISOString()}`;
+            
+            alert('📄 Compliance report generated!\n\nReport saved and digitally signed.');
+            addSecurityLog('Compliance report generated and digitally signed', 'success');
+        }
+
+        function exportAuditLogs() {
+            alert('📤 Audit logs exported!\n\nLogs exported in JSON format with digital signatures.');
+            addSecurityLog('Audit logs exported for compliance review', 'info');
+        }
+
+        // Utility function to add security logs
+        function addSecurityLog(message, type) {
+            const logContainers = document.querySelectorAll('#securityAlerts, #auditLogs');
+            const timestamp = new Date().toLocaleString();
+            const icon = type === 'success' ? '✅' : type === 'warning' ? '⚠️' : type === 'error' ? '❌' : 'ℹ️';
+            
+            logContainers.forEach(container => {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `
+                    <div class="timestamp">${timestamp}</div>
+                    <div>${icon} ${message}</div>
+                `;
+                container.insertBefore(logEntry, container.firstChild);
+                
+                // Keep only last 10 entries
+                while (container.children.length > 10) {
+                    container.removeChild(container.lastChild);
+                }
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSessionInfo();
+            addSecurityLog('Security demonstration platform initialized', 'success');
+        });
+    </script>
+</body>
+</html>
