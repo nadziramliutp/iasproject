@@ -330,121 +330,6 @@
             color: #666;
         }
 
-        .code-viewer {
-            background: #2d3748;
-            color: #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.4;
-            overflow-x: auto;
-            position: relative;
-        }
-
-        .code-viewer h4 {
-            color: #81c784;
-            margin-bottom: 15px;
-            font-size: 16px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .code-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .code-tab {
-            flex: 1;
-            padding: 10px 15px;
-            background: #e9ecef;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border-right: 1px solid #dee2e6;
-        }
-
-        .code-tab:last-child {
-            border-right: none;
-        }
-
-        .code-tab.active {
-            background: #2d3748;
-            color: #e2e8f0;
-        }
-
-        .code-tab:hover:not(.active) {
-            background: #dee2e6;
-        }
-
-        .code-content {
-            display: none;
-        }
-
-        .code-content.active {
-            display: block;
-        }
-
-        .code-snippet {
-            background: #1a202c;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 3px solid #4299e1;
-        }
-
-        .code-language {
-            display: inline-block;
-            background: #4299e1;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 11px;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #4299e1;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #3182ce;
-        }
-
-        .syntax-keyword {
-            color: #f093a3;
-        }
-
-        .syntax-string {
-            color: #81c784;
-        }
-
-        .syntax-comment {
-            color: #a0aec0;
-            font-style: italic;
-        }
-
-        .syntax-function {
-            color: #90cdf4;
-        }
-
         @media (max-width: 768px) {
             .nav-tabs {
                 flex-direction: column;
@@ -457,31 +342,33 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-            
-            .code-tabs {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
 <body>
+    <div class="demo-banner">
+        🔒 EDUCATIONAL DEMO - Security Enhancement Project for ToyyibPay-Inspired Platform
+    </div>
+
     <div class="container">
         <div class="header">
-            <div class="logo">ToyyibPay Security Enhanced Platform</div>
+            <div class="logo">ToyyibPay Security Enhanced Payment Platform</div>
             <div class="subtitle">TFB2043 Information Assurance & Security</div>
             <div class="security-badge">All 10 Security Controls Implemented</div>
         </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('payment')">Payment Processing</button>
+            <button class="nav-tab" onclick="showTab('authentication')">Authentication & MFA</button>
+            <button class="nav-tab" onclick="showTab('merchant')">Merchant Onboarding</button>
+            <button class="nav-tab" onclick="showTab('api')">API Security</button>
+            <button class="nav-tab" onclick="showTab('monitoring')">Security Monitoring</button>
+            <button class="nav-tab" onclick="showTab('compliance')">Compliance & Audit</button>
+        </div>
+
         <!-- Payment Processing Tab -->
         <div class="tab-content active" id="payment">
-            <h2>🔒 Secure Payment Processing</h2>
-                        <div class="code-tabs">
-                <button class="code-tab active" onclick="showCodeTab('encryption')">E2EE & Tokenization</button>
-                <button class="code-tab" onclick="showCodeTab('authentication')">MFA & OAuth</button>
-                <button class="code-tab" onclick="showCodeTab('kyc')">KYC & Verification</button>
-                <button class="code-tab" onclick="showCodeTab('integrity')">Data Integrity</button>
-                <button class="code-tab" onclick="showCodeTab('monitoring')">Security Monitoring</button>
-            </div>
-
+            <h2>Secure Payment Processing</h2>
             
             <div class="security-feature">
                 <h4>Control 1: End-to-End Encryption (E2EE) & Tokenization</h4>
@@ -509,11 +396,11 @@
                 <input type="number" id="amount" placeholder="100.00" step="0.01">
             </div>
 
-            <button class="btn" onclick="processPayment()">🔐 Process Encrypted Payment</button>
-            <button class="btn btn-success" onclick="showEncryptionDemo()">👁️ Show Encryption Process</button>
+            <button class="btn" onclick="processPayment()">Process Encrypted Payment</button>
+            <button class="btn btn-success" onclick="showEncryptionDemo()">Show Encryption Process</button>
 
             <div class="encryption-demo" id="encryptionDemo" style="display: none;">
-                <h4>🔐 Encryption & Tokenization Demo</h4>
+                <h4>Encryption & Tokenization Demo</h4>
                 <div class="before-after">
                     <div class="data-box">
                         <h5>Original Data (Client-Side)</h5>
@@ -539,7 +426,7 @@
 
         <!-- Authentication Tab -->
         <div class="tab-content" id="authentication">
-            <h2>🔐 Multi-Factor Authentication System</h2>
+            <h2>Multi-Factor Authentication System</h2>
             
             <div class="security-feature">
                 <h4>Control 6: Authentication & Authorization Enhancement</h4>
@@ -596,7 +483,7 @@
 
         <!-- Merchant Onboarding Tab -->
         <div class="tab-content" id="merchant">
-            <h2>🏢 Enhanced Merchant Onboarding</h2>
+            <h2>Enhanced Merchant Onboarding</h2>
             
             <div class="security-feature">
                 <h4>Control 3: KYC Verification & Digital Document Validation</h4>
@@ -1096,19 +983,6 @@ Generated: ${new Date().toISOString()}`;
                     container.removeChild(container.lastChild);
                 }
             });
-        }
-
-        // Code tab switching functionality
-        function showCodeTab(tabName) {
-            document.querySelectorAll('.code-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.code-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.getElementById('code-' + tabName).classList.add('active');
-            event.target.classList.add('active');
         }
 
         // Initialize the application
