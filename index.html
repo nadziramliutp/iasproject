@@ -342,14 +342,29 @@
             .grid {
                 grid-template-columns: 1fr;
             }
+                    /* Reusable Dark Code Viewer Styles */
+        .code-viewer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2d3748;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="demo-banner">
-        🔒 EDUCATIONAL DEMO - Security Enhancement Project for ToyyibPay-Inspired Platform
-    </div>
-
     <div class="container">
         <div class="header">
             <div class="logo">ToyyibPay Security Enhanced Payment Platform</div>
@@ -422,6 +437,32 @@
                     <span class="security-indicator secure">✓ Auto-scaling</span>
                 </div>
             </div>
+                        <!-- Add this div where you want the code -->
+            <div id="code-container-1"></div>
+
+            <script>
+            // Add this JavaScript
+            const sampleCode = `function processSecurePayment(amount, cardToken) {
+                // Validate input
+                if (!amount || amount <= 0) {
+                    throw new Error('Invalid amount');
+                }
+                
+                // Create encrypted transaction
+                const transaction = {
+                    id: generateUUID(),
+                    amount: amount,
+                    token: cardToken,
+                    timestamp: new Date().toISOString(),
+                    hash: generateHash(amount + cardToken)
+                };
+                
+                return processTransaction(transaction);
+            }`;
+
+            createCodeViewer('💳 Secure Payment Processing', 'javascript', sampleCode, 'code-container-1');
+</script>
+
         </div>
 
         <!-- Authentication Tab -->
@@ -982,6 +1023,88 @@ Generated: ${new Date().toISOString()}`;
                 while (container.children.length > 10) {
                     container.removeChild(container.lastChild);
                 }
+            });
+        }
+
+                // Reusable Code Viewer Function
+        function createCodeViewer(title, language, code, container) {
+            const viewerId = 'code-viewer-' + Math.random().toString(36).substr(2, 9);
+            
+            const codeViewer = `
+                <div class="code-viewer">
+                    <div class="code-header">
+                        <div class="code-title">
+                            ${title}
+                            <span class="code-language">${language}</span>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('${viewerId}')">📋 Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="${viewerId}">${highlightSyntax(code, language)}</pre>
+                    </div>
+                </div>
+            `;
+            
+            if (typeof container === 'string') {
+                document.getElementById(container).innerHTML = codeViewer;
+            } else {
+                container.innerHTML = codeViewer;
+            }
+        }
+                // Simple Syntax Highlighter
+        function highlightSyntax(code, language) {
+            const keywords = {
+                javascript: ['function', 'const', 'let', 'var', 'if', 'else', 'for', 'while', 'return', 'async', 'await', 'class', 'import', 'export'],
+                python: ['def', 'class', 'if', 'else', 'elif', 'for', 'while', 'return', 'import', 'from', 'as', 'try', 'except'],
+                java: ['public', 'private', 'class', 'interface', 'if', 'else', 'for', 'while', 'return', 'import', 'package'],
+                sql: ['SELECT', 'FROM', 'WHERE', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'TABLE', 'INDEX'],
+                php: ['function', 'class', 'if', 'else', 'foreach', 'return', 'public', 'private', 'protected']
+            };
+
+            let highlighted = code;
+            
+            // Highlight keywords
+            if (keywords[language]) {
+                keywords[language].forEach(keyword => {
+                    const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+                    highlighted = highlighted.replace(regex, `<span class="keyword">${keyword}</span>`);
+                });
+            }
+            
+            // Highlight strings
+            highlighted = highlighted.replace(/(["'`])((?:(?!\1)[^\\]|\\.)*)(\1)/g, '<span class="string">$1$2$3</span>');
+            
+            // Highlight comments
+            highlighted = highlighted.replace(/(\/\/.*$)/gm, '<span class="comment">$1</span>');
+            highlighted = highlighted.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="comment">$1</span>');
+            highlighted = highlighted.replace(/(#.*$)/gm, '<span class="comment">$1</span>');
+            
+            // Highlight numbers
+            highlighted = highlighted.replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="number">$1</span>');
+            
+            // Highlight functions
+            highlighted = highlighted.replace(/(\w+)(?=\s*\()/g, '<span class="function">$1</span>');
+            
+            return highlighted;
+        }
+                // Copy Code Function
+        function copyCode(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent || element.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Please select and copy manually.');
             });
         }
 
