@@ -361,6 +361,27 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #2d3748;
             }
+                    /* Payment Layout Styles */
+            .payment-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                margin: 20px 0;
+            }
+
+            .payment-form {
+                background: #f8f9fa;
+                padding: 25px;
+                border-radius: 12px;
+                border: 1px solid #e9ecef;
+            }
+
+            .code-section {
+                background: #f1f3f4;
+                padding: 15px;
+                border-radius: 12px;
+                border: 1px solid #e0e0e0;
+            }
         }
     </style>
 </head>
@@ -382,88 +403,74 @@
         </div>
 
         <!-- Payment Processing Tab -->
-        <div class="tab-content active" id="payment">
-            <h2>Secure Payment Processing</h2>
-            
-            <div class="security-feature">
-                <h4>Control 1: End-to-End Encryption (E2EE) & Tokenization</h4>
-                <p>All payment data is encrypted client-side before transmission and tokenized for storage.</p>
-            </div>
-
-            <div class="form-group">
-                <label>Card Number</label>
-                <input type="text" id="cardNumber" placeholder="4532 1234 5678 9012" maxlength="19" oninput="formatCardNumber(this)">
-            </div>
-
-            <div class="grid">
-                <div class="form-group">
-                    <label>Expiry Date</label>
-                    <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
-                </div>
-                <div class="form-group">
-                    <label>CVV</label>
-                    <input type="password" id="cvv" placeholder="123" maxlength="4">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Amount (RM)</label>
-                <input type="number" id="amount" placeholder="100.00" step="0.01">
-            </div>
-
-            <button class="btn" onclick="processPayment()">Process Encrypted Payment</button>
-            <button class="btn btn-success" onclick="showEncryptionDemo()">Show Encryption Process</button>
-
-            <div class="encryption-demo" id="encryptionDemo" style="display: none;">
-                <h4>Encryption & Tokenization Demo</h4>
-                <div class="before-after">
-                    <div class="data-box">
-                        <h5>Original Data (Client-Side)</h5>
-                        <div id="originalData">Enter payment details above</div>
-                    </div>
-                    <div class="data-box">
-                        <h5>Encrypted & Tokenized (Transmitted)</h5>
-                        <div id="encryptedData">Click "Show Encryption Process"</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="security-feature">
-                <h4>Control 8: Cloud Infrastructure Protection</h4>
-                <p>DDoS protection and infrastructure monitoring active.</p>
-                <div>
-                    <span class="security-indicator secure">✓ WAF Active</span>
-                    <span class="security-indicator secure">✓ Rate Limiting</span>
-                    <span class="security-indicator secure">✓ Auto-scaling</span>
-                </div>
-            </div>
-                        <!-- Add this div where you want the code -->
-            <div id="code-container-1"></div>
-
-            <script>
-            // Add this JavaScript
-            const sampleCode = `function processSecurePayment(amount, cardToken) {
-                // Validate input
-                if (!amount || amount <= 0) {
-                    throw new Error('Invalid amount');
-                }
-                
-                // Create encrypted transaction
-                const transaction = {
-                    id: generateUUID(),
-                    amount: amount,
-                    token: cardToken,
-                    timestamp: new Date().toISOString(),
-                    hash: generateHash(amount + cardToken)
-                };
-                
-                return processTransaction(transaction);
-            }`;
-
-            createCodeViewer('💳 Secure Payment Processing', 'javascript', sampleCode, 'code-container-1');
-</script>
-
+    <div class="tab-content active" id="payment">
+        <h2>🔒 Secure Payment Processing</h2>
+        
+        <div class="security-feature">
+            <h4>Control 1: End-to-End Encryption (E2EE) & Tokenization</h4>
+            <p>All payment data is encrypted client-side before transmission and tokenized for storage.</p>
         </div>
+
+        <!-- Split Layout: Form + Code -->
+        <div class="payment-layout">
+            <!-- Left Side: Payment Form -->
+            <div class="payment-form">
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="4532 1234 5678 9012" maxlength="19" oninput="formatCardNumber(this)">
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" id="cvv" placeholder="123" maxlength="4">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (RM)</label>
+                    <input type="number" id="amount" placeholder="100.00" step="0.01">
+                </div>
+
+                <button class="btn" onclick="processPayment()">🔐 Process Encrypted Payment</button>
+                <button class="btn btn-success" onclick="showEncryptionDemo()">👁️ Show Encryption Process</button>
+                <button class="btn" onclick="showPaymentCode()">📋 View Code</button>
+
+                <div class="encryption-demo" id="encryptionDemo" style="display: none;">
+                    <h4>🔐 Encryption & Tokenization Demo</h4>
+                    <div class="before-after">
+                        <div class="data-box">
+                            <h5>Original Data (Client-Side)</h5>
+                            <div id="originalData">Enter payment details above</div>
+                        </div>
+                        <div class="data-box">
+                            <h5>Encrypted & Tokenized (Transmitted)</h5>
+                            <div id="encryptedData">Click "Show Encryption Process"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Code Implementation -->
+            <div class="code-section">
+                <div id="payment-code-container"></div>
+            </div>
+        </div>
+
+        <div class="security-feature">
+            <h4>Control 8: Cloud Infrastructure Protection</h4>
+            <p>DDoS protection and infrastructure monitoring active.</p>
+            <div>
+                <span class="security-indicator secure">✓ WAF Active</span>
+                <span class="security-indicator secure">✓ Rate Limiting</span>
+                <span class="security-indicator secure">✓ Auto-scaling</span>
+            </div>
+        </div>
+    </div>
 
         <!-- Authentication Tab -->
         <div class="tab-content" id="authentication">
@@ -1107,6 +1114,71 @@ Generated: ${new Date().toISOString()}`;
                 alert('Please select and copy manually.');
             });
         }
+                // Show payment encryption code
+        function showPaymentCode() {
+            const paymentCode = `// AES-256 Encryption for Payment Data
+        async function encryptPaymentData(paymentData) {
+            const key = await crypto.subtle.generateKey(
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['encrypt', 'decrypt']
+            );
+            
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const encodedData = new TextEncoder().encode(
+                JSON.stringify(paymentData)
+            );
+            
+            const encryptedData = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                encodedData
+            );
+            
+            return {
+                encryptedData: new Uint8Array(encryptedData),
+                iv: iv,
+                keyId: generateKeyId()
+            };
+        }
+
+        // Tokenize sensitive card data
+        function tokenizeCard(cardNumber) {
+            const token = 'tok_' + crypto.randomUUID();
+            const maskedCard = '****-****-****-' + cardNumber.slice(-4);
+            
+            // Store mapping securely in vault
+            secureVault.store(token, cardNumber);
+            
+            return { token, maskedCard };
+        }
+
+        // Process secure payment
+        function processSecurePayment(paymentData) {
+            // 1. Encrypt payment data client-side
+            const encrypted = encryptPaymentData(paymentData);
+            
+            // 2. Tokenize card number
+            const tokenized = tokenizeCard(paymentData.cardNumber);
+            
+            // 3. Create secure transaction
+            const transaction = {
+                encryptedData: encrypted,
+                cardToken: tokenized.token,
+                amount: paymentData.amount,
+                timestamp: new Date().toISOString()
+            };
+            
+            return submitTransaction(transaction);
+        }`;
+
+            createCodeViewer('🔐 Payment Encryption Implementation', 'javascript', paymentCode, 'payment-code-container');
+        }
+
+        // Auto-show code when tab loads
+        document.addEventListener('DOMContentLoaded', function() {
+            showPaymentCode();
+        });
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
