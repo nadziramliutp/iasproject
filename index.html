@@ -440,18 +440,15 @@
                 <button class="btn btn-success" onclick="showEncryptionDemo()">👁️ Show Encryption Process</button>
                 <button class="btn" onclick="showPaymentCode()">📋 View Code</button>
 
-                <div class="encryption-demo" id="encryptionDemo" style="display: none;">
-                    <h4>🔐 Encryption & Tokenization Demo</h4>
-                    <div class="before-after">
-                        <div class="data-box">
-                            <h5>Original Data (Client-Side)</h5>
-                            <div id="originalData">Enter payment details above</div>
-                        </div>
-                        <div class="data-box">
-                            <h5>Encrypted & Tokenized (Transmitted)</h5>
-                            <div id="encryptedData">Click "Show Encryption Process"</div>
-                        </div>
+
+                <div class="code-viewer">
+                    <div class="code-header">
+                        <div class="code-title">🔐 Your Title Here</div>
                     </div>
+                    <div class="code-content">// Your code goes here
+                function example() {
+                    console.log("Hello World");
+                }</div>
                 </div>
             </div>
 
